@@ -1,15 +1,15 @@
-name: Sed
+
+ame: Format python code
 on: push
 jobs:
-  build:
+  autopep8:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Find and Replace
-        uses: jacobtomlinson/gha-find-replace@master
+      - name: autopep8
+        uses: peter-evans/autopep8@v1
         with:
-          find: "gspider"
-          replace: "event"
+          args: --recursive --in-place --aggressive --aggressive .
       - name: Create Pull Request
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
