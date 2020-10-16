@@ -2,13 +2,14 @@
 # (C) BY MIDHUN
 # FOR FRIDAY
 import asyncio
-
 from userbot.plugins.sql_helper.fban_sql import add_fed_in_db
 from userbot.plugins.sql_helper.fban_sql import already_added_fed
 from userbot.plugins.sql_helper.fban_sql import get_all_fed
 from userbot.plugins.sql_helper.fban_sql import remove_fed
 from userbot.utils import admin_cmd
+from uniborgConfig import Config
 
+log_fban = Config.PRIVATE_GROUP_ID
 
 @borg.on(admin_cmd("fadd ?(.*)"))
 async def addfed(event):
