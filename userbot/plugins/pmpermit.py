@@ -164,16 +164,16 @@ if Var.PRIVATE_GROUP_ID is not None:
             # pm permit
             await do_pm_permit_action(chat_id, event)
 
-    async def do_pm_permit_action(chat_id, event):
-        if chat_id not in PM_WARNS:
-            PM_WARNS.update({chat_id: 0})
-        if PM_WARNS[chat_id] == 3:
+    async def do_pm_permit_action(sender_id, event):
+        if sender_id not in PM_WARNS:
+            PM_WARNS.update({sender_id: 0})
+        if PM_WARNS[sender_id] == 3:
             r = await event.reply(USER_BOT_WARN_ZERO)
             await asyncio.sleep(3)
-            await event.client(functions.contacts.BlockRequest(chat_id))
+            await event.client(functions.contacts.BlockRequest(sender_id))
             if chat_id in PREV_REPLY_MESSAGE:
-                await PREV_REPLY_MESSAGE[chat_id].delete()
-            PREV_REPLY_MESSAGE[chat_id] = r
+                await PREV_REPLY_MESSAGE[sender_id].delete()
+            PREV_REPLY_MESSAGE[sender_id] = r
             the_message = ""
             the_message += "#BLOCKED_PMs\n\n"
             the_message += f"[User](tg://user?id={chat_id}): {chat_id}\n"
