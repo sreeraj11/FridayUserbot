@@ -46,17 +46,14 @@ async def addfed(event):
     fban_count = 0
     kekbro = await event.edit("Starting Fban")
     sedbro = await kekbro.edit(f"Fbaning in Saved Feds. Total : {len(getmeallfed)} feds")
+    await borg.send_message(log_fban, f"/start")
+    try:
+        await borg.send_message(log_fban, f"/start")
+    except Exception as e:
+        await event.edit(f"Something Went Wrong \nError {e}")
     for starkcast in getmeallfed:
-        try:
-            fban_count += 1
-            await borg.send_message(log_fban, f"/joinfed {starkcast}")
-            await borg.send_message(log_fban, f"/fban {starklyf}")
-            await asyncio.sleep(0.2)
-            await sedbro.edit(f"Completed fban in {fban_count}")
-        except Exception as e:
-            try:
-                 await event.edit("Something went wrong \n{e}")
-            except:
-                 pass
+        await borg.send_message(log_fban, f"/joinfed {starkcast}")
+        await borg.send_message(log_fban, f"/fban {starklyf}")
+        await asyncio.sleep(0.2)
     await sedbro.edit(f"Fban Completed Sucessfully in {fban_count} feds")
 
