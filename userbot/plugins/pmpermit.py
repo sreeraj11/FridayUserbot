@@ -41,7 +41,7 @@ if Var.PRIVATE_GROUP_ID is not None:
     async def block(event):
         if event.fwd_from:
             return
-        replied_user = await event.client(GetFullUserRequest(event.chat_id))
+        replied_user = await event.client(GetFullUserRequest(event.sender_id))
         firstname = replied_user.user.first_name
         chat = await event.get_chat()
         if event.is_private:
@@ -61,7 +61,7 @@ if Var.PRIVATE_GROUP_ID is not None:
     async def approve_p_m(event):
         if event.fwd_from:
             return
-        replied_user = await event.client(GetFullUserRequest(event.chat_id))
+        replied_user = await event.client(GetFullUserRequest(event.sender_id))
         firstname = replied_user.user.first_name
         chat = await event.get_chat()
         if event.is_private:
@@ -76,7 +76,7 @@ if Var.PRIVATE_GROUP_ID is not None:
     async def approve_p_m(event):
         if event.fwd_from:
             return
-        replied_user = await event.client(GetFullUserRequest(event.chat_id))
+        replied_user = await event.client(GetFullUserRequest(event.sender_id))
         firstname = replied_user.user.first_name
         chat = await event.get_chat()
         if event.is_private:
@@ -96,10 +96,10 @@ if Var.PRIVATE_GROUP_ID is not None:
         if len(approved_users) > 0:
             for a_user in approved_users:
                 if a_user.reason:
-                    APPROVED_PMs += f"👉 [{a_user.chat_id}](tg://user?id={a_user.chat_id}) for {a_user.reason}\n"
+                    APPROVED_PMs += f"👉 [{a_user.sender_id}](tg://user?id={a_user.sender_id}) for {a_user.reason}\n"
                 else:
                     APPROVED_PMs += (
-                        f"👉 [{a_user.chat_id}](tg://user?id={a_user.chat_id})\n"
+                        f"👉 [{a_user.sender_id}](tg://user?id={a_user.sender_id})\n"
                     )
         else:
             APPROVED_PMs = "no Approved PMs (yet)"
@@ -107,7 +107,7 @@ if Var.PRIVATE_GROUP_ID is not None:
             with io.BytesIO(str.encode(APPROVED_PMs)) as out_file:
                 out_file.name = "approved.pms.text"
                 await event.client.send_file(
-                    event.chat_id,
+                    event.sender_id,
                     out_file,
                     force_document=True,
                     allow_cache=False,
@@ -130,16 +130,16 @@ if Var.PRIVATE_GROUP_ID is not None:
             return
 
         message_text = event.message.message
-        chat_id = event.from_id
+        sender_id = event.from_id
 
         message_text.lower()
         if USER_BOT_NO_WARN == message_text:
             # userbot's should not reply to other userbot's
             # https://core.telegram.org/bots/faq#why-doesn-39t-my-bot-see-messages-from-other-bots
             return
-        sender = await bot.get_entity(chat_id)
+        sender = await bot.get_entity(sender_id)
 
-        if chat_id == bot.uid:
+        if sender_id == bot.uid:
 
             # don't log Saved Messages
 
@@ -160,9 +160,9 @@ if Var.PRIVATE_GROUP_ID is not None:
         if PM_ON_OFF == "DISABLE":
             return
 
-        if not pmpermit_sql.is_approved(chat_id):
+        if not pmpermit_sql.is_approved(sender_id):
             # pm permit
-            await do_pm_permit_action(chat_id, event)
+            await do_pm_permit_action(sender_id, event)
 
     async def do_pm_permit_action(sender_id, event):
         if sender_id not in PM_WARNS:
@@ -171,13 +171,13 @@ if Var.PRIVATE_GROUP_ID is not None:
             r = await event.reply(USER_BOT_WARN_ZERO)
             await asyncio.sleep(3)
             await event.client(functions.contacts.BlockRequest(sender_id))
-            if chat_id in PREV_REPLY_MESSAGE:
+            if sender_id in PREV_REPLY_MESSAGE:
                 await PREV_REPLY_MESSAGE[sender_id].delete()
             PREV_REPLY_MESSAGE[sender_id] = r
             the_message = ""
             the_message += "#BLOCKED_PMs\n\n"
-            the_message += f"[User](tg://user?id={chat_id}): {chat_id}\n"
-            the_message += f"Message Counts: {PM_WARNS[chat_id]}\n"
+            the_message += f"[User](tg://user?id={sender_id}): {sender_id}\n"
+            the_message += f"Message Counts: {PM_WARNS[sender_id]}\n"
             # the_message += f"Media: {message_media}"
             try:
                 await event.client.send_message(
@@ -195,15 +195,15 @@ if Var.PRIVATE_GROUP_ID is not None:
         botusername = Var.TG_BOT_USER_NAME_BF_HER
         noob = "dontpm"
         tap = await bot.inline_query(botusername, USER_BOT_NO_WARN)
-        sed = await tap[0].click(event.chat_id)
+        sed = await tap[0].click(event.sender_id)
         noobs = "approvenibba"
         taps = await bot.inline_query(botusername, noobs)
         seda = await tap[0].click(bot.uid)
 
-        PM_WARNS[chat_id] += 1
-        if chat_id in PREV_REPLY_MESSAGE:
-            await PREV_REPLY_MESSAGE[chat_id].delete()
-        PREV_REPLY_MESSAGE[chat_id] = sed
+        PM_WARNS[sender_id] += 1
+        if sender_id in PREV_REPLY_MESSAGE:
+            await PREV_REPLY_MESSAGE[sender_id].delete()
+        PREV_REPLY_MESSAGE[sender_id] = sed
 
 
 @bot.on(
