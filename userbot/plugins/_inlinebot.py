@@ -14,6 +14,7 @@ from userbot.plugins import inlinestats
 
 sed = "https://telegra.ph/file/7368645fc8213d4840ee6.jpg"
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "Friday"
+logchat = Config.PRIVATE_GROUP_ID
 if Var.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
 
     @tgbot.on(events.InlineQuery)  # pylint:disable=E0602
@@ -159,6 +160,14 @@ if Var.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
             "Ok. Please Wait Until My Master Approves. Don't Send More Than 3 Message"
         )
         await borg.send_message(event.query.user_id, text2)
+        await borg.send_message(logchat, text="New User Has Come To Talk Something To You."
+                                buttons=[
+                                    [Button.url(
+                            "Contact Him",
+                            f"tg://user?id={event.query.user_id}")
+                    ],
+                                ]
+                               )
 
     @tgbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"askme")))
     async def rip(event):
