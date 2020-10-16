@@ -1,5 +1,5 @@
 
-ame: Format python code
+name: Format python code
 on: push
 jobs:
   autopep8:
@@ -13,7 +13,7 @@ jobs:
       - name: Create Pull Request
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: 'Hmm'
+          commit_message: 'AutoBug Fixes'
           commit_options: '--no-verify'
           repository: .
           commit_user_name: StarkGang
