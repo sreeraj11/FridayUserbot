@@ -152,22 +152,23 @@ if Var.TG_BOT_USER_NAME_BF_HER is not None and tgbot is not None:
         await borg.send_message(event.query.user_id, text1)
         await borg(functions.contacts.BlockRequest(event.query.user_id))
 
-    @tgbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"whattalk")))
-    async def rip(event):
-        chat_m = await event.get_chat()
-        await event.edit("Choice Accepted ✔️")
-        text2 = (
-            "Ok. Please Wait Until My Master Approves. Don't Send More Than 3 Message"
-        )
-        await borg.send_message(event.query.user_id, text2)
-        await borg.send_message(logchat, text="New User Has Come To Talk Something To You."
-                                buttons=[
-                                    [Button.url(
-                            "Contact Him",
-                            f"tg://user?id={event.query.user_id}")
-                    ],
-                                ]
-                               )
+   @tgbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"whattalk")))
+   async def rip(event):
+    chat_m = await event.get_chat()
+    await event.edit("Choice Accepted ✔️")
+    text2 = (
+        "Ok. Please Wait Until My Master Approves. Don't Send More Than 3 Message"
+    )
+    await borg.send_message(event.query.user_id, text2)
+    await borg.send_message(logchat, text="New User Has Come To Talk Something To You.",
+    buttons = [
+        [Button.url(
+            "Contact Him",
+            f"tg://user?id={event.query.user_id}")
+        ],
+    ]
+    )
+
 
     @tgbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"askme")))
     async def rip(event):
