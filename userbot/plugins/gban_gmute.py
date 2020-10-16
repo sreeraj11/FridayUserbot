@@ -49,7 +49,7 @@ async def get_user_from_id(user, event):
     return user_obj
 
 @friday.on(friday_on_cmd(pattern="gban ?(.*)"))
-async def gspider(userbot):
+async def event(userbot):
     lol = userbot
     sender = await lol.get_sender()
     me = await lol.client.get_me()
@@ -115,7 +115,7 @@ async def gspider(userbot):
 
 
 @friday.on(friday_on_cmd(pattern="ungban ?(.*)"))
-async def gspider(userbot):
+async def event(userbot):
     lol = userbot
     sender = await lol.get_sender()
     me = await lol.client.get_me()

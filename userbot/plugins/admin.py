@@ -513,7 +513,7 @@ async def ungmoot(un_gmute):
 
 @friday.on(friday_on_cmd(pattern=r"gmute(?: |$)(.*)"))
 @errors_handler
-async def gspider(gspdr):
+async def event(gspdr):
     """ For .gmute command, globally mutes the replied/tagged person """
     # Admin or creator check
     chat = await gspdr.get_chat()
