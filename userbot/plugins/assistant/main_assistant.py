@@ -87,10 +87,10 @@ async def help(event):
         if event.query.user_id is not bot.uid:
             await tgbot.send_message(
                 event.chat_id,
-                message="You Can Deploy Friday In Heroku By Following Steps Bellow, You Can See Some Quick Guides On Support Channel Or On Your Own Assistant Bot. \nThank You For Contacting Me.",
+                message="You Can Deploy Friday In Heroku By Following Steps Below, You Can See Some Quick Guides On Support Channel Or On Your Own Assistant Bot. \nThank You For Contacting Me.",
                 buttons = [
                 [Button.url("Deploy Tutorial 📺", "https://youtu.be/xfHcm_e92eQ")],
-                [Button.url("Need Help ❓", "t.me/FridaySupportOfficial")]
+                [Button.url("Need Help ❓", "https://t.me/FridaySupportOfficial")]
                  ]
                 )
 
@@ -179,13 +179,13 @@ async def sedlyfsir(event):
             await asyncio.sleep(0.2)
         except Exception as e:
             try:
-                 logger.info(f"Error : {error_count}\nError : {e} \nUsers : {chat_id}"
+                 logger.info(f"Errors : {error_count}\nError : {e} \nUsers : {chat_id}"
                  )
             except:
                  pass
     await tgbot.send_message(
         event.chat_id,
-        f"Broadcast Done in {sent_count} Group/Users and I got {error_count} Error and Total Number Was {len(userstobc)}"
+        f"Broadcast sent in {sent_count} Group/Users and I got {error_count} Error and Total Number Was {len(userstobc)}"
         )
 
 
@@ -233,4 +233,4 @@ async def starkisnoob(event):
             user_id
           )
         await event.reply("DisBlacklisted This Dumb Person")
-        await tgbot.send_message(user_id, "Congo! You Have Been Unblacklisted By My Master.")
+        await tgbot.send_message(user_id, "Congrats!! You Have Been Unblacklisted By My Master.")
